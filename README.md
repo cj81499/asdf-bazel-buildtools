@@ -2,20 +2,12 @@
 
 # asdf-bazel-buildtools
 
-[![Build](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml) [![Lint](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml)
+[![Build](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml)
+[![Lint](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml)
 
-[bazel-buildtools](https://github.com/cj81499/asdf-bazel-buildtools) plugin for the [asdf version manager](https://asdf-vm.com).
+[bazel-buildtools](https://github.com/bazelbuild/buildtools) plugin for the [asdf version manager](https://asdf-vm.com).
 
 </div>
-
-# Contents
-
-- [asdf-bazel-buildtools](#asdf-bazel-buildtools)
-- [Contents](#contents)
-- [Dependencies](#dependencies)
-- [Install](#install)
-- [Contributing](#contributing)
-- [License](#license)
 
 # Dependencies
 
@@ -27,6 +19,8 @@ Plugin:
 
 ```shell
 asdf plugin add bazel-buildtools git@github.com:cj81499/asdf-bazel-buildtools.git
+# or
+asdf plugin add bazel-buildtools https://github.com/cj81499/asdf-bazel-buildtools.git
 ```
 
 bazel-buildtools:
@@ -36,10 +30,12 @@ bazel-buildtools:
 asdf list-all bazel-buildtools
 
 # Install specific version
+asdf install bazel-buildtools <version>
+# Install latest version
 asdf install bazel-buildtools latest
 
 # Set a version globally (on your ~/.tool-versions file)
-asdf global bazel-buildtools latest
+asdf global bazel-buildtools <version>
 
 # Now bazel-buildtools commands are available
 buildifier --version
