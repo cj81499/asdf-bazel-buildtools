@@ -1,7 +1,8 @@
 <div align="center">
 
-# asdf-bazel-buildtools [![Build](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml) [![Lint](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml)
+# asdf-bazel-buildtools
 
+[![Build](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/build.yml) [![Lint](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml/badge.svg)](https://github.com/cj81499/asdf-bazel-buildtools/actions/workflows/lint.yml)
 
 [bazel-buildtools](https://github.com/cj81499/asdf-bazel-buildtools) plugin for the [asdf version manager](https://asdf-vm.com).
 
@@ -9,6 +10,8 @@
 
 # Contents
 
+- [asdf-bazel-buildtools](#asdf-bazel-buildtools)
+- [Contents](#contents)
 - [Dependencies](#dependencies)
 - [Install](#install)
 - [Contributing](#contributing)
@@ -16,19 +19,14 @@
 
 # Dependencies
 
-**TODO: adapt this section**
-
-- `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+- `bash`, `curl`: generic POSIX utilities.
 
 # Install
 
 Plugin:
 
 ```shell
-asdf plugin add bazel-buildtools
-# or
-asdf plugin add bazel-buildtools https://github.com/cj81499/asdf-bazel-buildtools.git
+asdf plugin add bazel-buildtools git@github.com:cj81499/asdf-bazel-buildtools.git
 ```
 
 bazel-buildtools:
@@ -45,6 +43,8 @@ asdf global bazel-buildtools latest
 
 # Now bazel-buildtools commands are available
 buildifier --version
+buildozer --version
+unused_deps --version
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to

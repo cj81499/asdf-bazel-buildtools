@@ -10,13 +10,19 @@ jobs:
   plugin_test:
     name: asdf plugin test
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-latest
           - macos-latest
     runs-on: ${{ matrix.os }}
     steps:
+      # FIXME: checkout is only needed b/c the repo is private
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: asdf_plugin_test
         uses: asdf-vm/actions/plugin-test@v1
         with:
-          command: buildifier --version
+          giturl: "." # FIXME: repo is private, so we use the checked out version
+          command: buildifier --version && buildozer --version && unused_deps --version
