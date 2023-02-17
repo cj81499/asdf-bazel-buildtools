@@ -2,10 +2,11 @@
 
 set -euo pipefail
 
-# TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for bazel-buildtools.
-GH_REPO="https://github.com/cj81499/asdf-bazel-buildtools"
+GH_REPO="https://github.com/bazelbuild/buildtools"
 TOOL_NAME="bazel-buildtools"
-TOOL_TEST="buildifier --version"
+TOOL_TESTS=("buildifier --version" "buildozer --version" "unused_deps --version")
+
+TOOL_NAMES=("buildifier" "buildozer" "unused_deps")
 
 fail() {
   echo -e "asdf-$TOOL_NAME: $*"
@@ -26,26 +27,30 @@ sort_versions() {
 
 list_github_tags() {
   git ls-remote --tags --refs "$GH_REPO" |
-    grep -o 'refs/tags/.*' | cut -d/ -f3- |
-    sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
+    grep -o 'refs/tags/.*' | cut -d/ -f3-
 }
 
 list_all_versions() {
-  # TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-  # Change this function if bazel-buildtools has other means of determining installable versions.
   list_github_tags
 }
 
 download_release() {
-  local version filename url
+  local version url os arch
   version="$1"
-  filename="$2"
 
-  # TODO: Adapt the release URL convention for bazel-buildtools
-  url="$GH_REPO/archive/v${version}.tar.gz"
+  # `uname` gives "Darwin"/"Linux". Use `awk` to convert to lowercase
+  os="$(uname | awk '{print tolower($0)}')"
 
-  echo "* Downloading $TOOL_NAME release $version..."
-  curl "${curl_opts[@]}" -o "$filename" -C - "$url" || fail "Could not download $url"
+  # TODO: detect arch (amd64/arm64) w/ uname -m
+  arch="amd64"
+
+  for tool in "${TOOL_NAMES[@]}"; do
+    url="$GH_REPO/releases/download/${version}/${tool}-${os}-${arch}"
+
+    echo "* Downloading $tool release $version..."
+    curl "${curl_opts[@]}" -o "$ASDF_DOWNLOAD_PATH/$tool" -C - "$url" || fail "Could not download $url"
+  done
+
 }
 
 install_version() {
@@ -61,10 +66,10 @@ install_version() {
     mkdir -p "$install_path"
     cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
-    # TODO: Assert bazel-buildtools executable exists.
-    local tool_cmd
-    tool_cmd="$(echo "$TOOL_TEST" | cut -d' ' -f1)"
-    test -x "$install_path/$tool_cmd" || fail "Expected $install_path/$tool_cmd to be executable."
+    for tool in "${TOOL_NAMES[@]}"; do
+      chmod u+x "$install_path/$tool"
+      test -x "$install_path/$tool" || fail "Expected $install_path/$tool to be executable."
+    done
 
     echo "$TOOL_NAME $version installation was successful!"
   ) || (
